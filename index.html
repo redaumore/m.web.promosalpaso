@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<HTML>
+<head>
+<meta http-equiv="Content-Type"  content="text/html; charset=utf-8"/> 
+<title>Promos al paso</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- <script src="http://10.0.2.2:8081/target/target-script-min.js#promosalpaso"></script> -->
+<script src="scripts/jquery.js"></script>
+<!-- <script src="scripts/jquery.min.map"></script> -->
+<script src="scripts/environment.js"></script>
+<script src="scripts/jquery.mobile-1.3.2.js"></script>
+<!--<script src="scripts/cordova.js"></script>-->
+<script src="scripts/route-maps.js"></script>
+<script src="scripts/promosalpaso.js"></script>
+<script src="scripts/promosalpaso-mobile.js"></script>
+<link href="css/jquery.mobile-1.3.2.min.css" rel="stylesheet" type="text/css"/>
+<!-- <link href="css/jquery.mobile.structure-1.3.1.css" rel="stylesheet" type="text/css"/> -->
+<link href="css/pap_styles.css" rel="stylesheet" type="text/css"/>
+<link href="css/pap.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div data-role="page" id="main" data-theme="a">
+        <div data-role="content" class="mainbgr" id="main_div">
+            <div class="row-fluid">
+                <div class="span12">
+                    <ul data-inset="true" data-role="listview" id="main_menu">
+                        <li>
+                            <a href="#" onclick="gotoSearch();" class="btn btn-large" data-shadow="true"><i class="icon-search"></i> Buscar Promos</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="gotoCategories();" class="btn btn-large" data-shadow="true"><i class="icon-filter"></i> Filtrar categorías</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="gotoFavoritos();" class="btn btn-large" data-shadow="true"><i class="icon-star"></i> Mis favoritas</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="gotoContact();" class="btn btn-large" data-shadow="true"><i class="icon-envelope"></i> Contacto</a>
+                        </li>
+                    
+                    </ul>    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div data-role="page" id="one" data-theme="a">
+        <div id="headerone" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;"><img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/></div>
+            </div>
+        </div>
+        <div data-role="content" class="scrollable" id="promolist-container">
+            <ul id="promolist" data-role="listview" class="ui-listview">
+            	<li><span>No hay promociones para listar.</span></li>
+            </ul>
+        </div>
+        <input type="hidden" id="_lat" value=""/>
+        <input type="hidden" id="_lng" value=""/>
+   </div>
+
+    <div data-role="page" id="detail" data-theme="a">
+        <div id="headerdetail" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;"><img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/></div>
+            </div>
+        </div>
+        <div data-role="content" style="padding: 0px;" class="scrollable det-font-oscuro">
+        	<div class="table-row det-comercio-row">
+                <div style="float: left;" class="table-cell">
+                	<img id="det-img-comercio" class="det-img-comercio" src="images/trebol.png"/>
+                </div>
+                <div class="table-cell">
+                	<div id="det-name" class="det-comercio">Nombre Comercio</div>
+                	<div id="det-direccion" class="comercio det-font-oscuro">Av de Mayo 25448 - Ramos Mejía</div>
+                </div>
+            </div>
+            <div style="display: table; min-height: 100px; overflow: hidden; width: 100%;">
+            	<div id="det-long_description" class="det-descripcion det-font-gris" style="display: table-cell; vertical-align: middle;">Descripcion larga</div>
+            </div>
+            <div id="det-displayed_text" class="det-displayed-text fondo-gris">2X1 de Lunes a Viernes</div>
+            <div class="det-precio-row">
+                <div style="float: left; width: 66px; padding: 5px 0 5px 5px;">
+                	<a onClick="showPromoImage();" rel="external" class="ui-button" style="text-decoration: none; color: black; font-weight: bold;">
+                    	<img id="det-img-promo" src="images/trebol.png" class="shadow image" style="padding: 3px; width: 60px; height: 60px;"/>
+                    </a>
+                </div>
+                <div id="det-alarma" style="background-image: url(images/alert-icon.png); background-repeat: no-repeat; background-position: center center; float: right; height: 100%; min-height: 70px; width: 60px;">
+                    <div id="det-alarm_num" class="det-alarm-num">29</div>
+                    <div id="det-alarm_type" class="det-alarm-type">unid.</div>
+                </div>
+                <div id="det-precio" style="min-height: inherit;">
+                    <div id="det-short_description" class="comercio det-font-oscuro" style="padding: 5px 5px 0 78px;">Torta de Frutillas</div>
+                    <div style="text-align: center;">
+                    	<div id="precio_desde" class="det-desde">desde&nbsp;</div>
+                    	<div id="det-promo_value" class="precio" style="font-size: 3em;">2390</div>
+                    </div>
+                </div>
+            </div>
+            <table class="fondo-gris" style="width: 100%">
+            	<tr>
+            		<td style="border-right: solid 1px #9CAAC6; width: 25%">
+            			<a href="#page-map" id="link-map" rel="external" class="ui-button" style="text-decoration: none; color: black; font-weight: bold;" data-ajax="false">
+	                        <div style="float: left; padding: 5px 0 5px 5px;">
+	                            <img id="det-img-mapa" src="images/map-icon.png" class="shadow image" style="padding: 3px; width: 60px; height: 60px; background-color: white;">
+	                        </div>
+	                        <div class="det-ver-mapa det-font-oscuro">VER MAPA</div>
+	                        <div id="det-distance" class="det-distancia det-font-oscuro">200 mts</div>
+                    	</a>
+            		</td>
+            		<td>
+            			<div style="margin: auto; text-align: center;">
+	                        <a href="#" id="linkFavorite" class="ui-button">
+	                            <table style="margin:auto;">
+	                                <tr>
+	                                    <td style="width: 30px; text-align: right;"><img src="images/trebol.png" style="height: 30px; width: 30px;"></td>
+	                                    <td style="width: 70px; text-align: left;"><div id="favtext" style="text-align: left; font-size: 1.1em; font-weight: bold; color: #42962F">Agregar a Favoritos</div></td>
+	                                </tr>
+	                            </table>
+	                        </a>
+                    	</div>
+            		</td>
+            		<td style="width: 10%" align="right">
+            			<div id="det-web"><a id="det-link" href="#" target="new"><img src="images/web-icon.png" style="width: 2.5em;"/></a></div>
+	                    <div id="det-tel"><a id="det-phone" href="#"><img src="images/phone-icon.png" style="width: 2.5em;"/></a></div>
+	                    <div id="det-email"><a id="det-msg" href="#"><img src="images/mail-icon.png" style="width: 2.5em;"/></a></div>
+            		</td>
+            	</tr>
+            </table>
+            <!-- 
+    		<div id="maspromos" style="width: 100%; height: 3em;">
+	        	<div class="ui-bar-a" style="min-height: 1.6em; color: white; font-size: 1.2em; padding: 0.4em 0 0.4em 0; text-shadow: 0 0 0;"><span id="barmaspromos" style="padding-left: 5px;">+ promos de #NOMBRECOMERCIO#</span></div>
+	            	<ul id="promolistmp" data-role="listview" class="ui-listview"></ul>     
+	        </div>-->
+        </div> 
+    </div>    
+    
+    <div data-role="page" id="page-map" data-theme="a">
+    	<div id="headermap" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" style="height: 5em;" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;">
+            		<img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/>
+            	</div>
+            </div>
+        </div>
+        <div data-role="content" style="padding:0 ">
+        	<div id="map_canvas" style="width: 100%;"></div>
+        </div>
+    </div>
+    
+    <div data-role="page" id="search" data-theme="a">
+        <div id="headersearch" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;">
+            		<img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/>
+            	</div>
+            </div>
+        </div>
+        <div data-role="content" class="scrollable">
+            <h2>Busqueda de Promos</h2>
+            <label for="street">Calle</label>
+            <input id="street" type="text" size="20" maxlength="50" class="search-text">
+            <label for="number">Nro.</label>
+            <input id="number" type="text" size="5" maxlength="7" class="search-text">
+            <div id="state_div" style="text-align: center;">
+            	<select name="state_select" id="state_select" style="display: none;"></select>
+            </div>
+            <label for="city_select">Ciudad</label>
+            <div id="city_button" style="text-align: center;">
+                <select name="city_select" id="city_select"></select>
+                <div id="search_button">
+                    <a id="a_search_button" href="#" data-role="button" data-inline="true">Buscar</a>
+                </div>
+            </div>
+        </div>
+    </div><!-- /page two -->
+    
+    <div data-role="page" id="promo-image" data-theme="a">
+        <div id="headersearch" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;">
+            		<img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/>
+            	</div>
+            </div>
+        </div>
+        <div data-role="content" class="scrollable">
+        	<div class="ui-corner-all ui-shadow " style="display: table; height: 100%; overflow: hidden; width: 100%;">
+        		<div style="display: table-cell; vertical-align: middle;">
+        			<img id="promo_image" alt="" src="" style="width:100%" class="go-back"/>
+        		</div>
+        	</div>
+        </div>
+    </div>
+    
+    <div data-role="page" id="contact" data-theme="a">
+        <div id="headersearch" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;">
+            		<img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/>
+            	</div>
+            </div>
+        </div>
+        <div data-role="content" class="scrollable">
+        	<div class="ui-controlgroup">
+        		<h3>Email:</h3>
+        		<input id="email" type="text" size="50" style="background-color:#ffffff; color:#222222; font-size:1.5em;"/>
+        	</div>
+        	<div class="ui-controlgroup">
+        		<h3>Mensaje:</h3>
+        		<textarea id="message" type="text" height="150px" rows="4" max-size="500" style="background-color:#ffffff; color:#222222; font-size:1.5em;" ></textarea>
+        	</div>
+        	<a type="button" onClick="sendMessage();" class="btn btn-large" data-shadow="true">Enviar</a>	
+        </div>
+    </div>
+    
+    <div data-role="page" id="category" data-theme="a">
+        <div id="headersearch" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;">
+            		<img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/>
+            	</div>
+            </div>
+        </div>
+        <div data-role="content" class="scrollable">
+        	<h2>Filtro de Categorías</h2>
+	        <span style="width:100%; margin:5px; padding:5px; font-size: 1.2em;">Las categorías seleccionadas se tienen en cuenta en todas las búsquedas.</span>
+	        <a type="button" onClick="clearCategories();" class="btn" data-mini="true" data-icon="trash" data-iconpos="right">Limpiar categorias seleccionadas</a>
+	       	<div id="category-container" style="margin-top: 5px;"></div>
+        </div>
+    </div>
+    <div data-role="page" id="consolelog" data-theme="a">
+    	<div id="headersearch" data-role="header" class="ui-header ui-header-fixed" data-position="fixed" data-tap-toggle="false" data-transition="none">
+            <div style="height: 5em;">
+                <div style="float: left; padding-top: 0.5em; padding-left: 0.5em;">
+	                <a class="go-back"><img style="height: 3em; padding-top: 0.5em;" src="images/back-icon.png"/></a>
+            	</div>
+            	<div style="float: right; padding-top: 0.5em; padding-right: 0.5em;">
+            		<img src="images/logo-promosalpaso70.png" style="height: 4em;" class="go-main"/>
+            	</div>
+            </div>
+        </div>
+        <div data-role="content" class="scrollable">
+        	<h2>Consola de Log</h2>
+	        <div id="category-container" style="margin-top: 5px;">
+	        	<span id="txt_consolelog" class="consolelog" class="scrollable"></span>
+	        </div>
+        </div>
+    </div>
+    <script>
+	    var script = document.createElement("script");
+	    script.type = "text/javascript";
+	    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCKgb7PEB7WJtzazWBhDg5OwX09ybi2qh8&sensor=true&callback=initGmapApi";
+	    document.body.appendChild(script);
+    </script>
+</body>
+</HTML>
