@@ -157,9 +157,9 @@ function loadPromoList(page){
         },
         error: function(jqXHR, textStatus, errorThrown){
         	if(jqXHR.responseText != null)
-        		consolelog("AJAX ERROR -> LoadPromoList(responseText): ".jqXHR.responseText);
+        		consolelog("AJAX ERROR -> LoadPromoList(responseText): "+jqXHR.responseText);
         	else
-        		consolelog("AJAX ERROR -> LoadPromoList(status): ".textStatus);
+        		consolelog("AJAX ERROR -> LoadPromoList(status): "+textStatus);
         	         	
             hideMessage();
 	        showMessage('Error en el servicio. Por favor intentalo en unos minutos...', 3500);
@@ -763,7 +763,7 @@ function getPromosByAddress(){
 	    var location = data.results[0].geometry.location;
 	    // coordinates are location.lat and location.lng
 	    if(data.results[0].geometry.location_type == "APPROXIMATE"){
-	    	showMessage("La dirección que ingresaste no existe o es errones. Inténtalo nuevamente.", 3500);
+	    	showMessage("La dirección que ingresaste no existe o es erronea. Inténtalo nuevamente.", 3500);
 	    	return;
 	    }
 	    _lat = location.lat;

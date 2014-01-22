@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <HTML>
 <head>
 <meta http-equiv="Content-Type"  content="text/html; charset=utf-8"/> 
@@ -23,12 +23,13 @@
         <div data-role="content" class="mainbgr" id="main_div">
             <div class="row-fluid">
                 <div class="span12">
+                	<span style="font-size: 1.3em;">Esta es una versión demo. El 25 se lanza la definitiva.</span>
                     <ul data-inset="true" data-role="listview" id="main_menu">
                         <li>
                             <a href="#" onclick="gotoSearch();" class="btn btn-large" data-shadow="true"><i class="icon-search"></i> Buscar Promos</a>
                         </li>
                         <li>
-                            <a href="#" onclick="gotoCategories();" class="btn btn-large" data-shadow="true"><i class="icon-filter"></i> Filtrar categorías</a>
+                            <a href="#" onclick="gotoCategories();" class="btn btn-large" data-shadow="true"><i class="icon-filter"></i><span>Filtrar categorías</span><span style="float:right;" id="main-counter" class="category-counter">0</span></a>
                         </li>
                         <li>
                             <a href="#" onclick="gotoFavoritos();" class="btn btn-large" data-shadow="true"><i class="icon-star"></i> Mis favoritas</a>
@@ -36,8 +37,8 @@
                         <li>
                             <a href="#" onclick="gotoContact();" class="btn btn-large" data-shadow="true"><i class="icon-envelope"></i> Contacto</a>
                         </li>
-                    
-                    </ul>    
+                    </ul>
+                    <span style="font-size: 1.3em;">Esta es una versión demo. El 25 se lanza la definitiva.</span>    
                 </div>
             </div>
         </div>
@@ -169,6 +170,7 @@
         </div>
         <div data-role="content" class="scrollable">
             <h2>Busqueda de Promos</h2>
+            <div style="text-align:center; width:100%; font-size:1.3em;">Ingresa la dirección desde la cual quieres buscar.</div><br/>
             <label for="street">Calle</label>
             <input id="street" type="text" size="20" maxlength="50" class="search-text">
             <label for="number">Nro.</label>
@@ -180,6 +182,7 @@
             <div id="city_button" style="text-align: center;">
                 <select name="city_select" id="city_select"></select>
                 <div id="search_button">
+                	<br/><br/>
                     <a id="a_search_button" href="#" data-role="button" data-inline="true">Buscar</a>
                 </div>
             </div>
@@ -244,8 +247,11 @@
         <div data-role="content" class="scrollable">
         	<h2>Filtro de Categorías</h2>
 	        <span style="width:100%; margin:5px; padding:5px; font-size: 1.2em;">Las categorías seleccionadas se tienen en cuenta en todas las búsquedas.</span>
-	        <a type="button" onClick="clearCategories();" class="btn" data-mini="true" data-icon="trash" data-iconpos="right">Limpiar categorias seleccionadas</a>
-	       	<div id="category-container" style="margin-top: 5px;"></div>
+	        <div>
+		        <a type="button" onClick="gotoSearch();" class="btn" style="width:49%; float:left;" data-mini="true" data-icon="search" data-iconpos="right">Ir a Buscar</a>
+		        <a type="button" onClick="clearCategories();" class="btn" style="width:49%; float:right;" data-mini="true" data-icon="trash" data-iconpos="right">Limpiar Selección</a>
+	        </div>
+	       	<div id="category-container" style="margin-top: 45px;"></div>
         </div>
     </div>
     <div data-role="page" id="consolelog" data-theme="a">

@@ -12,6 +12,7 @@ jQuery(document).on("pageshow", "#main", function(event, data) {
 	consolelog("window.width: "+ $(window).width());
 	consolelog("margin_top: "+margin_top);
 	consolelog("background_size: "+background_size);
+	countSelectedCategories();
 });
 
 jQuery(document).on("pagebeforeshow", "#one", function(event, data) {
@@ -176,6 +177,7 @@ function getCategories(fromCategories){
         },
         error: function(jqXHR, textStatus, errorThrown){
         	consolelog("Error recuperando las categorias.");
+        	loadCategories();
         }
     });
 	}
@@ -297,6 +299,24 @@ function saveSelectedCategories(){
 		window.localStorage.setItem("selected_categories", cats.toString());
 	}
 	catch(err){consolelog("EXCEPTION -> saveSelectedCategories: "+err.message);}
+}
+
+function countSelectedCategories(){
+	var selectedCategories = window.localStorage.getItem("selected_categories");
+	if(selectedCategories == null){
+		jQuery("#main-counter").text(0);
+		jQuery("#main-counter").hide();
+	}
+	else{
+		if(selectedCategories == ""){
+			jQuery("#main-counter").text(0);
+			jQuery("#main-counter").hide();
+			return;
+		}
+		var cats = selectedCategories.split(",");
+		jQuery("#main-counter").text(cats.length);
+		jQuery("#main-counter").show();
+	}
 }
 
 /*WATCH POSITION*/
