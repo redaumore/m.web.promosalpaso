@@ -8,10 +8,10 @@ jQuery(document).on("pageshow", "#main", function(event, data) {
 	var background_size = Math.round($(window).height()/2);
 	$("#main_menu").css("margin-top", margin_top);
 	$("#main_div").css("background-size", background_size);
-	consolelog("window.height: "+ $(window).height());
-	consolelog("window.width: "+ $(window).width());
-	consolelog("margin_top: "+margin_top);
-	consolelog("background_size: "+background_size);
+	//consolelog("window.height: "+ $(window).height());
+	//consolelog("window.width: "+ $(window).width());
+	//consolelog("margin_top: "+margin_top);
+	//consolelog("background_size: "+background_size);
 	countSelectedCategories();
 });
 
@@ -123,7 +123,8 @@ jQuery(document).on("click",'.go-back', function() {
     if(thisPage == "#category"){
     	saveSelectedCategories();
     }
-    jQuery.mobile.back();
+    window.history.back();
+    //ANDROID jQuery.mobile.back();
 });
 
 jQuery(document).on("click",'.go-main', function() {

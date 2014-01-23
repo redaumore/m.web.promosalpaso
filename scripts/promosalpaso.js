@@ -332,7 +332,7 @@ function loadPromoDetail(item){
             var one_day = 1000*60*60*24;
             days = Math.ceil((ends.getTime()-today.getTime())/(one_day));
             jQuery("#det-alarm_num").html(days);
-            jQuery("#det-alarm_type").html("dÃ­as");
+            jQuery("#det-alarm_type").html("días");
         } 
     }
     if(_searchOrigin == "GPS")

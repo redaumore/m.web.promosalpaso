@@ -247,6 +247,7 @@ table.aviso tr:hover td{
 	text-align: center; 
 	height: 18px; 
 	vertical-align: top;
+	margin-top: 3px;
 	text-shadow: 0 0 1px #FFFFFF;	
 }
 
