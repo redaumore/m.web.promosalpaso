@@ -15,7 +15,10 @@ jQuery(document).on("pageshow", "#main", function(event, data) {
 	countSelectedCategories();
 });
 
-jQuery(document).on("pagebeforeshow", "#one", function(event, data) {
+$(document).on("pagebeforeshow", "#main", function(event, data) {
+});
+
+$(document).on("pagebeforeshow", "#one", function(event, data) {
 	$("#promolist").listview().listview("refresh");
 });
 
@@ -49,6 +52,13 @@ jQuery(document).on("click", "#link-map", function(event, data) {
 		  hideMessage();
 	});
 });
+
+$(document).on("pagebeforeshow", "#category", function(event, data) {
+	if(jQuery("#category-container > div").size()==0){
+		loadCategories();
+	}
+		
+});
 /*****************FIN EVENTOS DE PAGE*******************/
 
 //jQuery(document).ready(function(){
@@ -56,6 +66,7 @@ function onDeviceReady(){
     /*if(jQuery.browser.mobile){*/
 	try{
 		showMessage("Cargando...");
+		setUuid();
         _last_update = window.localStorage.getItem("last_update");    
         if(_last_update == null)
             setLastUpdate(new Date(0));
@@ -155,11 +166,12 @@ function getCategories(fromCategories){
         jsonp: 'jsoncallback',
         contentType: "application/json; charset=utf-8",
         timeout: 10000,
+        async: false,
         beforeSend: function (jqXHR, settings) {
             consolelog(settings.url);
         },
         success: function(data, status){
-        	if(data.length != undefined){
+        	if(data != null){
         		if(data.length != 0){
         			var jsondata = JSON.stringify(data);
         			window.localStorage.setItem("categories", jsondata);
@@ -170,9 +182,10 @@ function getCategories(fromCategories){
         		loadCategories();
         	}
         	else{
-        		consolelog(data.code + ": " + data.message);
-        		window.localStorage.removeItem("categories");
-        		jQuery("#cat").val("");
+        		consolelog("No hay categorias");
+        		//consolelog(data.code + ": " + data.message);
+        		//window.localStorage.removeItem("categories");
+        		//jQuery("#cat").val("");
         	}
         	consolelog(JSON.stringify(data));
         },
@@ -202,7 +215,7 @@ function loadCategories(){
 				"data-role":"collapsible",
 				"data-inset":"false",
 			}).appendTo("#category-container" );
-			$('<h3><span class="category-father">'+father.title+'</span><span id="counter-'+father.id+'" class="category-counter">0</span></h3>').appendTo("#f-"+father.id );
+			$('<h3><span class="category-father">'+father.title+'</span><span id="counter-'+father.id+'" class="category-counter">*</span></h3>').appendTo("#f-"+father.id );
 			$('<ul id="ul-'+father.id+'" data-role="listview"></ul>').appendTo("#f-"+father.id );
 			jQuery.each(this.children, function(index, child){
 				$('<li style="padding:0px; border:0px; border-bottom: 1px solid #999999">'
@@ -261,7 +274,7 @@ function loadSelectedCategories(){
 					$(this).prop("checked",false);
 					$(this).checkboxradio("refresh");
 			});
-			jQuery("[class=category-counter]").text("0");
+			jQuery("[class=category-counter]").text("*");
 			jQuery("[class=category-counter]").hide();
 		}
 		else{

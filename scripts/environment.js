@@ -1,7 +1,8 @@
     //var _baseUri = "http://192.168.1.34/";
-var _baseUri = "http://dev.promosalpaso.com/";
+//var _baseUri = "http://dev.promosalpaso.com/";
+var _baseUri = "http://promosalpaso.com/";
 //var _baseUri = "http://promosalpaso.local/";
-var environment = "DEV";
+var environment = "PROD";
 var agent = "WEB";
 var _pagesize = 7;
 
@@ -23,8 +24,13 @@ function getuuid(){
 	consolelog(navigator.userAgent);
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) )
 		return $.mobile.uuid;
-	else
-		return "8218218921892";
+	
+	return _uuid;
+}
+
+function setUuid(){
+	var _now = new Date(); 
+	_uuid = _now.getTime();
 }
 
 $(document).bind("mobileinit", function(){

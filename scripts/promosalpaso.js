@@ -17,7 +17,7 @@ var _last_update;
 var _searchOrigin = "GPS"; /*CITY, FAV*/
 var _current_page = -1;
 var _txt_consolelog = "";
-
+var _uuid;
 //document.addEventListener("deviceready", function(){
 $(function(){
 	consolelog("calling onDeviceReady");
@@ -117,17 +117,17 @@ function loadPromoList(page){
         success: function(data, status){
                 consolelog("loadPromoList: llamada a servicio exitosa. data.length:"+data.data.length);
                 window.localStorage.setItem("lastSearch", JSON.stringify(data));
-                if(data.data.length == 0){
+                if(data.data[0].total == 0){
                 	hideMessage();
                     if(jQuery.mobile.activePage[0].id == "main"){
-                        showMessage('No se encontraron promos. Intenta nuestra bÃºsqueda manual.', 3500);
+                        showMessage('No se encontraron promos. Intenta nuestra bÃºsqueda por dirección.', 3500);
                         event.preventDefault();
                         gotoSearch();
                         return;
                     }
                     else
                     	if(jQuery.mobile.activePage[0].id == "search"){
-	                        showMessage('No se encontraron promos activas para esta ciudad.', 3500);
+	                        showMessage('No se encontraron promos activas para esta dirección. Intenta con otra.', 3500);
 	                        return;
                     	}
                 }
@@ -276,6 +276,8 @@ function callPromoDetail(promotion_id){
 }
 
 function loadPromoDetail(item){
+	var local = '';
+	local = (item.local!=''?' - '+(item.local.length>3?item.local:'Local '+item.local):'');
     jQuery("#det-name").html(item.name);
     jQuery("#det-long_description").html(item.long_description);
     jQuery("#det-displayed_text").html(item.displayed_text);
@@ -290,7 +292,7 @@ function loadPromoDetail(item){
     }
     
     jQuery("#det-distance").html(item.distance);
-    jQuery("#det-direccion").html(item.street + ' ' + item.number + ' - ' + item.city);
+    jQuery("#det-direccion").html(item.street + ' ' + item.number + local + ' - ' + item.city);
     jQuery("#det-img-comercio").attr("src",item.logo);
     if(item.branch_website != null && item.branch_website != "" ){
         jQuery("#det-link").attr("href", "#");
@@ -525,6 +527,7 @@ function getRegionsUpdate(){
         jsonp: 'jsoncallback',
         contentType: "application/json; charset=utf-8",
         timeout: 15000,
+        async: false,
         beforeSend: function (jqXHR, settings) {
             console.log(settings.url);
         },
@@ -773,7 +776,3 @@ function getPromosByAddress(){
 		loadPromoList(0);
 	});
 }
-
-
-
-

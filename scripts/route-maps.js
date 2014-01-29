@@ -149,5 +149,3 @@ function initializemap() {
 		   marker = null;
 			
   }  
-
-  
