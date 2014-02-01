@@ -54,10 +54,9 @@ jQuery(document).on("click", "#link-map", function(event, data) {
 });
 
 $(document).on("pagebeforeshow", "#category", function(event, data) {
-	if(jQuery("#category-container > div").size()==0){
+		/*jQuery("#category-container").empty();
 		loadCategories();
-	}
-		
+		loadSelectedCategories();*/
 });
 /*****************FIN EVENTOS DE PAGE*******************/
 
@@ -268,13 +267,13 @@ function clearCategories(){
 function loadSelectedCategories(){
 	try{
 		var selectedCategories = window.localStorage.getItem("selected_categories");
-		if(selectedCategories == null){
+		if(selectedCategories == null || selectedCategories == ''){
 			jQuery('input[name^="chbx-"]').each(function(){
 				if($(this).is(':checked'))
 					$(this).prop("checked",false);
 					$(this).checkboxradio("refresh");
 			});
-			jQuery("[class=category-counter]").text("*");
+			jQuery("[class=category-counter]").text("0");
 			jQuery("[class=category-counter]").hide();
 		}
 		else{
