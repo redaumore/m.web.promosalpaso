@@ -216,7 +216,7 @@ function getPromoRecord(promo){
     var liString = getLiString();
     liString = liString.replace("#ID#", promo.promotion_id);
     if(promo.path != "NOPIC")
-    	liString = liString.replace("#IMAGE#", promo.path);
+    	liString = liString.replace("#IMAGE#", promo.logo);
     else
     	liString = liString.replace("#IMAGE#", promo.logo);
     liString = liString.replace("#COMERCIO#", promo.name);

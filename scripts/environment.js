@@ -2,7 +2,7 @@
 //var _baseUri = "http://dev.promosalpaso.com/";
 //var _baseUri = "http://promosalpaso.com/";
 var _baseUri = "http://promosalpaso.local/";
-var environment = "PROD";
+var environment = "DEV";
 var agent = "WEB";
 var _pagesize = 7;
 
