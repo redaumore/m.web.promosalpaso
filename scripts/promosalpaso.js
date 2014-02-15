@@ -18,6 +18,8 @@ var _searchOrigin = "GPS"; /*CITY, FAV*/
 var _current_page = -1;
 var _txt_consolelog = "";
 var _uuid;
+var _cities;
+var _provinces;
 //document.addEventListener("deviceready", function(){
 $(function(){
 	consolelog("calling onDeviceReady");
@@ -537,7 +539,9 @@ function getRegionsUpdate(){
                 consolelog("No se actualizaron regiones");
                 return;
             }
-            addRegions(data.province, data.city);
+            window.localStorage.setItem("cities", JSON.stringify(data.city));
+            window.localStorage.setItem("provinces", JSON.stringify(data.province));
+            //addRegions(data.province, data.city);
             setLastUpdate(new Date());
         },
         error: function(jqXHR, textStatus, errorThrown){
@@ -546,83 +550,39 @@ function getRegionsUpdate(){
     });
 }
 
-function addRegions(provinces, cities){
-    var db = window.openDatabase("promosalpaso", "1.0", "Promos al Paso", 300000);
-    db.transaction(function(tx){populateRegionsDB(tx, provinces, cities);}, errorCB, successCB);
-}
-function populateRegionsDB(tx, provinces, cities) {
-    if(provinces != null ){
-         tx.executeSql('CREATE TABLE IF NOT EXISTS province (province_id INTEGER PRIMARY KEY, name, updated DATETIME)');
-         $.each(provinces, function(i,item){
-            consolelog("populateRegionsDB: actualizando provincia "+item.name);
-            tx.executeSql('INSERT INTO province (province_id, name, updated) VALUES ('+item.province_id+',"'+item.name+'","'+item.updated+'")');
-         });
-     }
-     if(cities != null){
-         tx.executeSql('CREATE TABLE IF NOT EXISTS city (city_id INTEGER PRIMARY KEY, name, latitude, longitude, province_id INTEGER, updated DATETIME)');
-         $.each(cities, function(i,item){
-            consolelog("populateRegionsDB: actualizando ciudad "+item.name);
-            consolelog('INSERT INTO city (city_id, name, latitude, longitude, province_id, updated) VALUES ('+item.city_id+',"'+item.name+'","'+item.latitude+'","'+item.longitude+'",'+item.province_id+',"'+item.updated+'")');
-            tx.executeSql('INSERT INTO city (city_id, name, latitude, longitude, province_id, updated) VALUES ('+item.city_id+',"'+item.name+'","'+item.latitude+'","'+item.longitude+'",'+item.province_id+',"'+item.updated+'")');
-         });
-     }
-}
-function errorCB(err) {
-    consolelog("errorCB: "+err.message+". Code: "+err.code);
-    //alert("Error actualizando ciudades: "+err.code);
-}
-function successCB(){
-	window.localStorage.setItem("last_update", _last_update);
-}
 function gotoSearch(){
-    var db = window.openDatabase("promosalpaso", "1.0", "Promos al Paso", 200000);
-    db.transaction(populateProvinceDDL, errorProvinceDDL, successProvinceDDL);
+	//var db = window.openDatabase("promosalpaso", "1.0", "Promos al Paso", 200000);
+    //db.transaction(populateProvinceDDL, errorProvinceDDL, successProvinceDDL);
     jQuery('#city_button').hide();
     jQuery.mobile.changePage("#search");
+    populateProvinceDDL();
     jQuery.mobile.hidePageLoadingMsg();
 }
-function populateProvinceDDL(tx){
-    tx.executeSql('SELECT province_id, name FROM province ORDER BY name', [], queryProvinceSuccess, errorCB);
-}
-function successProvinceDDL(){
-    
-}
-function errorProvinceDDL(err) {
-        consolelog("errorProvinceDDL: "+err.message+". Code: "+err.code);
-    }
-function queryProvinceSuccess(tx, results){
-    jQuery('#state_select').empty();
-    for(var i=0;i<results.rows.length;i++){
-        jQuery('#state_select').append('<option value="'+results.rows.item(i).province_id+'">' + results.rows.item(i).name + '</option>');
+function populateProvinceDDL(){
+	jQuery('#state_select').empty();
+	var provinces = JSON.parse(window.localStorage.getItem("provinces"));
+	
+    for(var i=0;i<provinces.length;i++){
+        jQuery('#state_select').append('<option value="'+provinces[i].province_id+'">' + provinces[i].name + '</option>');
     }
     jQuery("#state_select option:first").attr('selected','selected');
     jQuery('#state_select').selectmenu("refresh");
     addCites(jQuery('#state_select').val());
     jQuery('#state_select').hide(); /*Cuanto solo hay una provincia lo oculto.*/
+    //tx.executeSql('SELECT province_id, name FROM province ORDER BY name', [], queryProvinceSuccess, errorCB);
 }
+
 function addCites(province_id) {
-    var db = window.openDatabase("promosalpaso", "1.0", "Promos al Paso", 200000);
-    db.transaction(function(tx){populateCityDDL(tx, province_id);}, errorCityDDL, successCityDDL);
-}
-function populateCityDDL(tx, province_id){
-    tx.executeSql('SELECT city_id, name FROM city WHERE province_id = '+province_id+' ORDER BY name', [], queryCitySuccess, errorCB);
-}
-function successCityDDL(){
-    
-}
-function errorCityDDL(err) {
-        consolelog("Error City SQL: "+err.code);
-    }
-function queryCitySuccess(tx, results){
-    jQuery('#city_select').empty();
-    for(var i=0;i<results.rows.length;i++){
-        jQuery('#city_select').append('<option value="'+results.rows.item(i).city_id+'">' + results.rows.item(i).name + '</option>');
+	var cities = JSON.parse(window.localStorage.getItem("cities"));
+	
+	jQuery('#city_select').empty();
+    for(var i=0;i<cities.length;i++){
+        jQuery('#city_select').append('<option value="'+cities[i].city_id+'">' + cities[i].name + '</option>');
     }
     jQuery("#city_select option:first").attr('selected','selected');     
     jQuery('#city_select').selectmenu("refresh");
     jQuery('#city_button').show();
 }
-
 //SEARCH
 function doSearch(){
 	_searchOrigin = "CITY";
@@ -640,6 +600,7 @@ function doSearch(){
 function querySearchDB(tx, city_id) {
         tx.executeSql('SELECT * FROM city WHERE city_id = ' + city_id, [], querySearchSuccess, errorSearchDB);
 }
+
 function querySearchSuccess(tx, results) {
     len = results.rows.length;
     if(len = 1){

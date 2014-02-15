@@ -53,10 +53,10 @@ jQuery(document).on("click", "#link-map", function(event, data) {
 	});
 });
 
-$(document).on("pagebeforeshow", "#category", function(event, data) {
-		/*jQuery("#category-container").empty();
-		loadCategories();
-		loadSelectedCategories();*/
+$(document).on("pageshow", "#category", function(event, data) {
+		// jQuery("#category-container").empty();
+		//loadCategories();
+		// loadSelectedCategories();
 });
 /*****************FIN EVENTOS DE PAGE*******************/
 
@@ -95,7 +95,7 @@ jQuery(document).on("change blur",'#state_select', function() {
     event.preventDefault();
 });
 
-jQuery(document).on("click",'#a_search_button', function() {
+jQuery(document).on("click",'#a_search_button', function(event) {
     event.preventDefault();
     //doSearch();
     getPromosByAddress();
@@ -122,12 +122,12 @@ function setLastUpdate(timestamp){
 }
 
 function gotoCategories(){
-	event.preventDefault();
 	$.mobile.changePage(jQuery("#category"));
+	//loadCategories();
 	loadSelectedCategories();
 }
 
-jQuery(document).on("click",'.go-back', function() {
+jQuery(document).on("click",'.go-back', function(event) {
     event.preventDefault();
     var thisPage = location.hash;
     if(thisPage == "#category"){
@@ -178,7 +178,6 @@ function getCategories(fromCategories){
         		}
         		else
         			consolelog("Servicio de categorias trajo array vacio.");
-        		loadCategories();
         	}
         	else{
         		consolelog("No hay categorias");
@@ -186,6 +185,7 @@ function getCategories(fromCategories){
         		//window.localStorage.removeItem("categories");
         		//jQuery("#cat").val("");
         	}
+        	loadCategories();
         	consolelog(JSON.stringify(data));
         },
         error: function(jqXHR, textStatus, errorThrown){
